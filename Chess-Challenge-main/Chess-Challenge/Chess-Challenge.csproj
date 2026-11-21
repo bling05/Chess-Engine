@@ -61,6 +61,9 @@
     <None Update="Human.bin">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Cerebellum3Merge.bin" Condition="Exists('Cerebellum3Merge.bin')">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,1 +1,7 @@
-Chess-Challenge-main/Chess-Challenge/bin/Debug/net6.0/Cerebellum3Merge.bin
+# Build output
+bin/
+obj/
+.vs/
+
+# Main opening book: too large for GitHub, downloaded separately (see README)
+Cerebellum3Merge.bin

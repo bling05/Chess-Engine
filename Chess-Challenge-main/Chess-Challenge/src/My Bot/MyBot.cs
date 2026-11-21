@@ -9,7 +9,10 @@ public class MyBot : IChessBot {
         var book = new PolyglotBook();
         ulong zobristKey = book.ComputeZobristKeyFromFen(board.GetFenString());
 
-        string? move = book.FindBookMove(zobristKey, "Cerebellum3Merge.bin");
+        // Cerebellum3Merge.bin is too large for GitHub, so it's downloaded separately
+        // (see README). Without it, fall back to the Human.bin book in the repo.
+        string? move = book.FindBookMove(zobristKey, "Cerebellum3Merge.bin")
+                    ?? book.FindBookMove(zobristKey, "Human.bin");
         if (move != null) {
             Console.WriteLine("Book move: " + move);
             return new Move(move, board);

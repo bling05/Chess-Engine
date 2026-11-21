@@ -4,9 +4,12 @@ using System.Linq;
 
 public class PolyglotBook
 {
-    // You must initialize this array with the exact 781 Zobrist keys used by Polyglot.
-    // For brevity, we omit the actual initialization data here.
-    // In a real implementation, you would fill this array with the known Polyglot keys.
+    // The 781 fixed Zobrist keys from the Polyglot book format:
+    //   [0..767]   one key per (piece, square): 12 piece types x 64 squares
+    //   [768..771] castling rights: white kingside, white queenside, black kingside, black queenside
+    //   [772..779] en passant file a-h
+    //   [780]      white to move
+    // A position's hash is the XOR of the keys for every feature present.
     private static readonly ulong[] zobristKeys = new ulong[781]
     {
         0x9D39247E33776D41UL, 0x2AF7398005AAA5C7UL, 0x44DB015024623547UL, 0x9C15F73E62A76AE2UL,
@@ -364,6 +367,13 @@ public class PolyglotBook
         // [11]: learn
         // [12..15]: unused
         // Entries are sorted by key. We'll perform a binary search for the given key.
+
+        // Book files are copied next to the built program, so look there rather than
+        // relying on whatever folder the program was started from.
+        if (!Path.IsPathRooted(bookPath))
+            bookPath = Path.Combine(AppContext.BaseDirectory, bookPath);
+        if (!File.Exists(bookPath))
+            return null;
 
         using (var fs = new FileStream(bookPath, FileMode.Open, FileAccess.Read))
         using (var br = new BinaryReader(fs))
